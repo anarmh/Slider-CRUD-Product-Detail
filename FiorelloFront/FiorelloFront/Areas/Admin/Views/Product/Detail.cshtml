@@ -1,0 +1,26 @@
+﻿@model ProductDetailVM
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<div class="container">
+    <div class="row">  <div class="col-6 images">
+        @foreach (var item in Model.Images)
+        {
+            <img src="~/img/@item" style="width:300px; height:450px;">
+        }
+      
+    </div>
+    <div class="col-6">
+        <h3>Name: @Model.Name</h3>
+        <h3>Price: $@Model.Price</h3>
+        <h3>CategoryName: @Model.CategoryName</h3>
+        <h3>Discount: @Model.Discount</h3>
+    </div>
+
+    </div>
+
+    <a asp-action="Index" class="btn btn-outline-info mt-3">Back</a>
+
+</div>
+

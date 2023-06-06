@@ -1,0 +1,65 @@
+﻿@model List<CategoryVM>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<style>
+    .status-slider {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .status-true {
+        background-color: green;
+    }
+
+    .status-false {
+        background-color: red;
+    }
+</style>
+
+<!-- Recent Sales Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <a asp-action="Create" class="btn btn-outline-success m-2">Create</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-white">
+
+                        <th scope="col">Name</th>
+                      
+                        <th scope="col">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model)
+                    {
+                        <tr>
+                           
+                            <td>@category.Name</td>
+                            
+                            <td>
+                                <a asp-action="Detail" asp-route-id="@category.Id" class="btn btn-outline-info m-2">Detail</a>
+                                <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-outline-warning m-2">Edit</a>
+                                <form method="post" class="d-inline-block" asp-action="Delete" asp-route-id="@category.Id">
+                                    <button type="submit" class="btn btn-outline-danger m-2">Delete</button>
+                                </form>
+                               
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Recent Sales End -->

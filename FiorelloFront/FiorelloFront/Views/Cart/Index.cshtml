@@ -1,0 +1,51 @@
+﻿@model List<BasketDetailVM>
+@{
+    ViewData["Title"] = "Index";
+    decimal grandTotal = 0;
+}
+
+<div class="container">
+    @if (Model.Count > 0)
+    {
+       <table class="table">
+      <thead>
+       <tr>
+          <th scope="col">Image</th>
+          <th scope="col">Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Count</th>
+          <th scope="col">Total Price</th>
+           <th scope="col">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+              <td> <img style="width:150px; height:120px;" src="~/img/@item.Image"/></td>
+              <td>@item.Name</td>
+              <td>@item.Price.ToString("0.####") $</td>
+              <td>@item.Count</td>
+              <td>@item.TotalPrice.ToString("0.####") $</td>
+              <td class="color-white">
+                   <form method="post" asp-action="Delete" asp-route-id="@item.Id">
+                      <button type="submit" class="btn btn-danger color-white">Delete</button>
+                    </form>
+                 
+                  </td>
+                </tr>
+                    grandTotal += item.TotalPrice;
+            }
+
+      </tbody>
+    </table>
+        <h1>Total:@grandTotal.ToString("0.####")$</h1>
+    }
+    else
+    {
+    <div class="alert alert-warning" role="alert">
+     Cart is empty!
+    </div>
+    }
+</div>
+
