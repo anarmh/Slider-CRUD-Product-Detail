@@ -4,7 +4,7 @@
 }
 
 <div class="container my-5">
-    <form method="post" asp-action="Create" enctype="multipart/form-data">
+    <form method="post" asp-controller="Slider" asp-action="Create" enctype="multipart/form-data">
         <input asp-for="Images"  class="form-control" maxlength="" />
         <span class="text-danger d-block" asp-validation-for="Images"> </span>
         <button type="submit" class="btn btn-outline-success mt-3">Submit</button>
