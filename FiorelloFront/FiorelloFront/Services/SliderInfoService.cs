@@ -27,7 +27,7 @@ namespace FiorelloFront.Services
             {
                 Title = title,
                 Description = description,
-                SignImage = signImage.ToString(),
+                SignImage = fileName
             };
 
             await _context.AddAsync(sliderInfo);
@@ -35,9 +35,49 @@ namespace FiorelloFront.Services
             
         }
 
+        public async  Task DeleteAsync(int id)
+        {
+           SliderInfo sliderInfo= await GetByIdAsync(id);
+            _context.SliderInfos.Remove(sliderInfo);
+            await _context.SaveChangesAsync();
+            string path = Path.Combine(_env.WebRootPath, "img", sliderInfo.SignImage);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+        }
+
+        public async Task EditAsync(SliderInfo sliderInfo, IFormFile newSignImage, string newTitle, string newDescription)
+        {
+           string oldSliderInfoPath=Path.Combine(_env.WebRootPath,"img",sliderInfo.SignImage);
+
+            if(File.Exists(oldSliderInfoPath))
+            {
+                File.Delete(oldSliderInfoPath);
+            }
+
+
+            string fileName = Guid.NewGuid().ToString() + "_" + newSignImage.FileName;
+
+            await newSignImage.SaveFileAsync(fileName, _env.WebRootPath, "img");
+
+            sliderInfo.SignImage = fileName;
+            sliderInfo.Title=newTitle;
+            sliderInfo.Description=newDescription;
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<SliderInfo>> GetAllDataAsync()
         {
             return await _context.SliderInfos.Where(m => !m.SoftDelete).ToListAsync();
+        }
+
+        public  async Task<SliderInfo> GetByIdAsync(int id)
+        {
+            return await _context.SliderInfos.FirstOrDefaultAsync(m => m.Id == id);
         }
     }
 }
