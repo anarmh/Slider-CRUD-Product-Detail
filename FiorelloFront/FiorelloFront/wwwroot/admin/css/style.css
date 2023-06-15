@@ -29,6 +29,9 @@
     opacity: 1;
 }
 
+.active-paginate{
+    background-color:red !important;
+}
 
 /*** Button ***/
 .btn {

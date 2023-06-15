@@ -18,9 +18,9 @@ namespace FiorelloFront.Services
             return await _context.Products.Include(m => m.ProductImages).Take(8).Where(m => !m.SoftDelete).ToListAsync();
         }
 
-        public async Task<List<Product>> GetAllWithIncludesAsync()
+        public async Task<List<Product>> GetPaginateDatasAsync(int page,int take)
         {
-            return await _context.Products.Include(m => m.ProductImages).Include(m => m.Category).Include(m => m.Discount).ToListAsync();
+            return await _context.Products.Include(m => m.ProductImages).Include(m => m.Category).Include(m => m.Discount).Skip((page-1)*take).Take(take).ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(int? id)
@@ -70,6 +70,12 @@ namespace FiorelloFront.Services
         public async Task<Product> GetWithIncludeAsync(int id)
         {
             return await _context.Products.Include(m => m.ProductImages).Include(m => m.Category).Include(m => m.Discount).FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public async Task<int> GetCountAsync()
+        {
+           var count=await _context.Products.CountAsync();
+            return count;
         }
     }
 }
